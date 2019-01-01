@@ -10,6 +10,9 @@ interface Props {
 export function View({ state, dispatch }: Props): JSX.Element {
   const kontantinsats = state.price && state.price * 0.15;
   const lagfart = state.price && state.price * 0.015 + 825;
+  const pantbrev =
+    (state.pantbrev && state.price && (state.price - state.pantbrev) * 0.02) ||
+    0;
   return (
     <div className="container">
       <h1>Räkna hus</h1>
@@ -25,14 +28,22 @@ export function View({ state, dispatch }: Props): JSX.Element {
           />
         </div>
         <div className="form-group">
+          <label>Existerande pantbrev</label>
+          <Components.NumberInput
+            className="form-control"
+            value={state.pantbrev}
+            onChange={value => {
+              dispatch(Actions.setPantBrev(value));
+            }}
+          />
+        </div>
+        <div className="form-group">
           <label>Kontantinsats (15 %)</label>
           <Components.NumberInput
             readOnly={true}
             className="form-control"
             value={kontantinsats}
-            onChange={value => {
-              dispatch(Actions.setPrice(value));
-            }}
+            onChange={value => {}}
           />
         </div>
         <div className="form-group">
@@ -41,9 +52,16 @@ export function View({ state, dispatch }: Props): JSX.Element {
             readOnly={true}
             className="form-control"
             value={lagfart}
-            onChange={value => {
-              dispatch(Actions.setPrice(value));
-            }}
+            onChange={value => {}}
+          />
+        </div>
+        <div className="form-group">
+          <label>Kostnader pantbrev (2 %)</label>
+          <Components.NumberInput
+            readOnly={true}
+            className="form-control"
+            value={pantbrev}
+            onChange={value => {}}
           />
         </div>
         <div className="form-group">
@@ -51,10 +69,8 @@ export function View({ state, dispatch }: Props): JSX.Element {
           <Components.NumberInput
             readOnly={true}
             className="form-control"
-            value={kontantinsats + lagfart}
-            onChange={value => {
-              dispatch(Actions.setPrice(value));
-            }}
+            value={kontantinsats + lagfart + pantbrev}
+            onChange={value => {}}
           />
         </div>
       </form>
