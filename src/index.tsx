@@ -8,7 +8,11 @@ ReactDOM.render(
     {(state, setState) => (
       <App.View
         dispatch={action => {
-          setState(App.reducer(state || App.initialState, action));
+          const prevState = state || App.initialState;
+          const nextState = App.reducer(prevState, action);
+          setState(nextState, () => {
+            console.log("Action: ", { prevState, action, nextState });
+          });
         }}
         state={state || App.initialState}
       />

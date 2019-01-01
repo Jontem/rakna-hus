@@ -1,9 +1,25 @@
-export type Action = Dummy1 | Dummy2;
+export type Action = SetPantBrev | SetPrice;
 
-export interface Dummy1 {
-  readonly type: "Dummy1";
+export interface SetPantBrev {
+  readonly type: "SetPantBrev";
+  readonly payload: number;
 }
 
-export interface Dummy2 {
-  readonly type: "Dummy2";
+export function setPantBrev(pantBrev: number): SetPantBrev {
+  return {
+    type: "SetPantBrev",
+    payload: pantBrev
+  };
+}
+
+export interface SetPrice {
+  readonly type: "SetPrice";
+  readonly payload: number;
+}
+
+export function setPrice(price: number): SetPrice {
+  return {
+    type: "SetPrice",
+    payload: price
+  };
 }

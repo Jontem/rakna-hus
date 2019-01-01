@@ -3,7 +3,7 @@ import * as React from "react";
 interface Props<TState> {
   readonly children: (
     state: TState | undefined,
-    setState: (state: TState) => void
+    setState: (state: TState, callback: () => void) => void
   ) => JSX.Element;
 }
 export class Store<TState extends {}> extends React.Component<
@@ -12,11 +12,14 @@ export class Store<TState extends {}> extends React.Component<
 > {
   constructor(props: Props<TState>) {
     super(props);
-    this.state = {} as any;
+    this.state = undefined as any;
   }
   render(): JSX.Element {
-    return this.props.children(this.state, (state: TState) => {
-      this.setState(() => state);
-    });
+    return this.props.children(
+      this.state,
+      (state: TState, callback: () => void) => {
+        this.setState(() => state, callback);
+      }
+    );
   }
 }
