@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "run-p dev tsc",
+    "start": "run-p --print-label dev tsc",
     "dev": "parcel index.html",
     "tsc": "tsc -w --pretty --preserveWatchOutput -p src/",
     "build": "rm rf dist/ && parcel build index.html"
@@ -14,5 +14,11 @@
   "devDependencies": {
     "npm-run-all": "^4.1.5",
     "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
   }
 }
