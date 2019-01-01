@@ -2,7 +2,7 @@ import * as React from "react";
 
 // Pick<XYZ, Exclude<keyof XYZ, "z">>
 type Input = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLInputElement>,
+  React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
 >;
 
