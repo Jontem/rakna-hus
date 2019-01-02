@@ -7,7 +7,8 @@
     "start": "run-p --print-label dev tsc",
     "dev": "parcel index.html",
     "tsc": "tsc -w --pretty --preserveWatchOutput -p src/",
-    "build": "rm rf dist/ && parcel build index.html"
+    "build": "rm -rf dist/ && parcel build index.html",
+    "publish": "npm run build && git checkout published && && git add dist/ && git commit -m \"New version\" && git push"
   },
   "author": "",
   "license": "ISC",
