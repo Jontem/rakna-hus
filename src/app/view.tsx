@@ -11,7 +11,9 @@ export function View({ state, dispatch }: Props): JSX.Element {
   const kontantinsats = state.price && state.price * 0.15;
   const lagfart = state.price && state.price * 0.015 + 825;
   const pantbrev =
-    (state.pantbrev && state.price && (state.price - state.pantbrev) * 0.02) ||
+    (state.pantbrev &&
+      state.price &&
+      (state.price * 0.85 - state.pantbrev) * 0.02) ||
     0;
   return (
     <div className="container">
