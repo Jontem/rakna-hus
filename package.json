@@ -8,7 +8,7 @@
     "dev": "parcel index.html",
     "tsc": "tsc -w --pretty --preserveWatchOutput -p src/",
     "build": "rm -rf dist/ && parcel build index.html",
-    "publish": "npm run build && git checkout published && && git add dist/ && git commit -m \"New version\" && git push"
+    "publish": "npm run build && git checkout published && mv dist/* . && git commit -m \"New version\" && git push && git checkout master"
   },
   "author": "",
   "license": "ISC",
