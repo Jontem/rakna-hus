@@ -1,4 +1,5 @@
 import * as React from "react";
+import { getNumber } from "../lib/get-number";
 
 // Pick<XYZ, Exclude<keyof XYZ, "z">>
 type Input = React.DetailedHTMLProps<
@@ -25,16 +26,4 @@ export function NumberInput(props: Props): JSX.Element {
       }}
     />
   );
-}
-
-function getNumber(value: string): number {
-  let numbers: string = "";
-
-  for (const char of value) {
-    if (!isNaN(parseInt(char))) {
-      numbers += char;
-    }
-  }
-
-  return parseInt(numbers);
 }

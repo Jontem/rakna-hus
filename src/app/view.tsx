@@ -2,13 +2,15 @@ import * as React from "react";
 import * as Components from "../components";
 import * as State from "./state";
 import * as Actions from "./actions";
+import { getNumber } from "../lib/get-number";
 
 interface Props {
   readonly dispatch: (action: Actions.Action) => void;
   readonly state: State.State;
 }
 export function View({ state, dispatch }: Props): JSX.Element {
-  const kontantinsats = state.price && state.price * 0.15;
+  const kontantinsats15 = state.price && state.price * 0.15;
+  const kontantinsats25 = state.price && state.price * 0.25;
   const lagfart = state.price && state.price * 0.015 + 825;
   const pantbrev =
     (state.pantbrev &&
@@ -18,6 +20,7 @@ export function View({ state, dispatch }: Props): JSX.Element {
   return (
     <div className="container">
       <h1>Räkna hus</h1>
+      <h2>Inmatning</h2>
       <form>
         <div className="form-group">
           <label>Pris</label>
@@ -39,13 +42,16 @@ export function View({ state, dispatch }: Props): JSX.Element {
             }}
           />
         </div>
+      </form>
+      <h2>Resultat</h2>
+      <form>
         <div className="form-group">
-          <label>Kontantinsats (15 %)</label>
-          <Components.NumberInput
+          <label>Kontantinsats</label>
+          <input
+            type="text"
             readOnly={true}
             className="form-control"
-            value={kontantinsats}
-            onChange={value => {}}
+            value={`${kontantinsats15.toLocaleString()}(15%), ${kontantinsats25.toLocaleString()}(25%)`}
           />
         </div>
         <div className="form-group">
@@ -66,15 +72,26 @@ export function View({ state, dispatch }: Props): JSX.Element {
             onChange={value => {}}
           />
         </div>
-        <div className="form-group">
-          <label>Totalt kontanter</label>
-          <Components.NumberInput
-            readOnly={true}
-            className="form-control"
-            value={kontantinsats + lagfart + pantbrev}
-            onChange={value => {}}
-          />
-        </div>
+        {
+          <div className="form-group">
+            <label>Totalt kontanter</label>
+            <input
+              type="text"
+              readOnly={true}
+              className="form-control"
+              value={`${(
+                kontantinsats15 +
+                lagfart +
+                pantbrev
+              ).toLocaleString()}(15%), ${(
+                kontantinsats25 +
+                lagfart +
+                pantbrev
+              ).toLocaleString()}(25%)`}
+              onChange={value => {}}
+            />
+          </div>
+        }
       </form>
     </div>
   );
