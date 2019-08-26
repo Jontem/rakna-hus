@@ -24679,6 +24679,15 @@ function setInterest(interest) {
 }
 
 exports.setInterest = setInterest;
+
+function setOperatingCost(operatingCost) {
+  return {
+    type: "SetOperatingCost",
+    payload: operatingCost
+  };
+}
+
+exports.setOperatingCost = setOperatingCost;
 },{}],"app/view.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -24715,7 +24724,7 @@ function View(_a) {
   var installments30 = (state.price - kontantinsats30) * 0.01 / 12;
   return React.createElement("div", {
     className: "container"
-  }, React.createElement("h1", null, "R\xE4kna hus"), React.createElement("h2", null, "Inmatning"), React.createElement("form", null, React.createElement("div", {
+  }, React.createElement("h1", null, "R\xE4kna hus"), React.createElement("h2", null, "Bostad"), React.createElement("form", null, React.createElement("div", {
     className: "form-group"
   }, React.createElement("label", null, "Pris"), React.createElement(Components.NumberInput, {
     className: "form-control",
@@ -24771,11 +24780,19 @@ function View(_a) {
     }
   })), React.createElement("div", {
     className: "form-group"
+  }, React.createElement("label", null, "Driftskostnad"), React.createElement(Components.NumberInput, {
+    className: "form-control",
+    value: state.operatingCost,
+    onChange: function onChange(value) {
+      dispatch(Actions.setOperatingCost(value));
+    }
+  })), React.createElement("div", {
+    className: "form-group"
   }, React.createElement("label", null, "Totalt 15% kontantinsats"), React.createElement("input", {
     type: "text",
     readOnly: true,
     className: "form-control",
-    value: "R\xE4nta: " + interest15.toLocaleString() + ", Amortering: " + intstallments15.toLocaleString() + ", Totalt: " + (interest15 + intstallments15).toLocaleString(),
+    value: "R\xE4nta: " + interest15.toLocaleString() + ", Amortering: " + intstallments15.toLocaleString() + ", Totalt: " + (interest15 + intstallments15 + state.operatingCost).toLocaleString(),
     onChange: function onChange(value) {}
   })), React.createElement("div", {
     className: "form-group"
@@ -24783,7 +24800,7 @@ function View(_a) {
     type: "text",
     readOnly: true,
     className: "form-control",
-    value: "R\xE4nta: " + interest30.toLocaleString() + ", Amortering: " + installments30.toLocaleString() + ", Totalt: " + (interest30 + installments30).toLocaleString(),
+    value: "R\xE4nta: " + interest30.toLocaleString() + ", Amortering: " + installments30.toLocaleString() + ", Totalt: " + (interest30 + installments30 + state.operatingCost).toLocaleString(),
     onChange: function onChange(value) {}
   }))));
 }
@@ -24841,7 +24858,8 @@ var ts_exhaustive_check_1 = require("ts-exhaustive-check");
 exports.initialState = {
   pantbrev: 0,
   price: 0,
-  interest: 2.25
+  interest: 2.25,
+  operatingCost: 5000
 };
 
 function reducer(state, action) {
@@ -24864,6 +24882,13 @@ function reducer(state, action) {
       {
         return __assign({}, state, {
           interest: action.payload
+        });
+      }
+
+    case "SetOperatingCost":
+      {
+        return __assign({}, state, {
+          operatingCost: action.payload
         });
       }
 

@@ -27,7 +27,7 @@ export function View({ state, dispatch }: Props): JSX.Element {
   return (
     <div className="container">
       <h1>Räkna hus</h1>
-      <h2>Inmatning</h2>
+      <h2>Bostad</h2>
       <form>
         <div className="form-group">
           <label>Pris</label>
@@ -112,13 +112,25 @@ export function View({ state, dispatch }: Props): JSX.Element {
           />
         </div>
         <div className="form-group">
+          <label>Driftskostnad</label>
+          <Components.NumberInput
+            className="form-control"
+            value={state.operatingCost}
+            onChange={value => {
+              dispatch(Actions.setOperatingCost(value));
+            }}
+          />
+        </div>
+        <div className="form-group">
           <label>Totalt 15% kontantinsats</label>
           <input
             type="text"
             readOnly={true}
             className="form-control"
             value={`Ränta: ${interest15.toLocaleString()}, Amortering: ${intstallments15.toLocaleString()}, Totalt: ${(
-              interest15 + intstallments15
+              interest15 +
+              intstallments15 +
+              state.operatingCost
             ).toLocaleString()}`}
             onChange={value => {}}
           />
@@ -130,7 +142,9 @@ export function View({ state, dispatch }: Props): JSX.Element {
             readOnly={true}
             className="form-control"
             value={`Ränta: ${interest30.toLocaleString()}, Amortering: ${installments30.toLocaleString()}, Totalt: ${(
-              interest30 + installments30
+              interest30 +
+              installments30 +
+              state.operatingCost
             ).toLocaleString()}`}
             onChange={value => {}}
           />
