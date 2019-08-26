@@ -10,7 +10,7 @@ interface Props {
 }
 export function View({ state, dispatch }: Props): JSX.Element {
   const kontantinsats15 = state.price && state.price * 0.15;
-  const kontantinsats25 = state.price && state.price * 0.25;
+  const kontantinsats30 = state.price && state.price * 0.3;
   const lagfart = state.price && state.price * 0.015 + 825;
   const pantbrev =
     (state.pantbrev &&
@@ -51,7 +51,7 @@ export function View({ state, dispatch }: Props): JSX.Element {
             type="text"
             readOnly={true}
             className="form-control"
-            value={`${kontantinsats15.toLocaleString()}(15%), ${kontantinsats25.toLocaleString()}(25%)`}
+            value={`${kontantinsats15.toLocaleString()}(15%), ${kontantinsats30.toLocaleString()}(30%)`}
           />
         </div>
         <div className="form-group">
@@ -84,10 +84,10 @@ export function View({ state, dispatch }: Props): JSX.Element {
                 lagfart +
                 pantbrev
               ).toLocaleString()}(15%), ${(
-                kontantinsats25 +
+                kontantinsats30 +
                 lagfart +
                 pantbrev
-              ).toLocaleString()}(25%)`}
+              ).toLocaleString()}(30%)`}
               onChange={value => {}}
             />
           </div>
