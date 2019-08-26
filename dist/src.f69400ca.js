@@ -24670,6 +24670,15 @@ function setPrice(price) {
 }
 
 exports.setPrice = setPrice;
+
+function setInterest(interest) {
+  return {
+    type: "SetInterest",
+    payload: interest
+  };
+}
+
+exports.setInterest = setInterest;
 },{}],"app/view.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -24700,6 +24709,10 @@ function View(_a) {
   var kontantinsats30 = state.price && state.price * 0.3;
   var lagfart = state.price && state.price * 0.015 + 825;
   var pantbrev = state.pantbrev && state.price && (state.price * 0.85 - state.pantbrev) * 0.02 || 0;
+  var interest15 = (state.price - kontantinsats15) * state.interest / 100 / 12;
+  var intstallments15 = (state.price - kontantinsats15) * 0.02 / 12;
+  var interest30 = (state.price - kontantinsats30) * state.interest / 100 / 12;
+  var installments30 = (state.price - kontantinsats30) * 0.01 / 12;
   return React.createElement("div", {
     className: "container"
   }, React.createElement("h1", null, "R\xE4kna hus"), React.createElement("h2", null, "Inmatning"), React.createElement("form", null, React.createElement("div", {
@@ -24746,6 +24759,31 @@ function View(_a) {
     readOnly: true,
     className: "form-control",
     value: (kontantinsats15 + lagfart + pantbrev).toLocaleString() + "(15%), " + (kontantinsats30 + lagfart + pantbrev).toLocaleString() + "(30%)",
+    onChange: function onChange(value) {}
+  }))), React.createElement("h2", null, "M\xE5nadskostnad"), React.createElement("form", null, React.createElement("div", {
+    className: "form-group"
+  }, React.createElement("label", null, "R\xE4nta"), React.createElement("input", {
+    type: "number",
+    className: "form-control",
+    value: state.interest,
+    onChange: function onChange(e) {
+      dispatch(Actions.setInterest(parseFloat(e.target.value)));
+    }
+  })), React.createElement("div", {
+    className: "form-group"
+  }, React.createElement("label", null, "Totalt 15% kontantinsats"), React.createElement("input", {
+    type: "text",
+    readOnly: true,
+    className: "form-control",
+    value: "R\xE4nta: " + interest15.toLocaleString() + ", Amortering: " + intstallments15.toLocaleString() + ", Totalt: " + (interest15 + intstallments15).toLocaleString(),
+    onChange: function onChange(value) {}
+  })), React.createElement("div", {
+    className: "form-group"
+  }, React.createElement("label", null, "Totalt 30% kontantinsats"), React.createElement("input", {
+    type: "text",
+    readOnly: true,
+    className: "form-control",
+    value: "R\xE4nta: " + interest30.toLocaleString() + ", Amortering: " + installments30.toLocaleString() + ", Totalt: " + (interest30 + installments30).toLocaleString(),
     onChange: function onChange(value) {}
   }))));
 }
@@ -24802,7 +24840,8 @@ var ts_exhaustive_check_1 = require("ts-exhaustive-check");
 
 exports.initialState = {
   pantbrev: 0,
-  price: 0
+  price: 0,
+  interest: 2.25
 };
 
 function reducer(state, action) {
@@ -24818,6 +24857,13 @@ function reducer(state, action) {
       {
         return __assign({}, state, {
           price: action.payload
+        });
+      }
+
+    case "SetInterest":
+      {
+        return __assign({}, state, {
+          interest: action.payload
         });
       }
 

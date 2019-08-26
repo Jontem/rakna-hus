@@ -17,6 +17,13 @@ export function View({ state, dispatch }: Props): JSX.Element {
       state.price &&
       (state.price * 0.85 - state.pantbrev) * 0.02) ||
     0;
+
+  const interest15 =
+    ((state.price - kontantinsats15) * state.interest) / 100 / 12;
+  const intstallments15 = ((state.price - kontantinsats15) * 0.02) / 12;
+  const interest30 =
+    ((state.price - kontantinsats30) * state.interest) / 100 / 12;
+  const installments30 = ((state.price - kontantinsats30) * 0.01) / 12;
   return (
     <div className="container">
       <h1>Räkna hus</h1>
@@ -72,26 +79,62 @@ export function View({ state, dispatch }: Props): JSX.Element {
             onChange={value => {}}
           />
         </div>
-        {
-          <div className="form-group">
-            <label>Totalt kontanter</label>
-            <input
-              type="text"
-              readOnly={true}
-              className="form-control"
-              value={`${(
-                kontantinsats15 +
-                lagfart +
-                pantbrev
-              ).toLocaleString()}(15%), ${(
-                kontantinsats30 +
-                lagfart +
-                pantbrev
-              ).toLocaleString()}(30%)`}
-              onChange={value => {}}
-            />
-          </div>
-        }
+        <div className="form-group">
+          <label>Totalt kontanter</label>
+          <input
+            type="text"
+            readOnly={true}
+            className="form-control"
+            value={`${(
+              kontantinsats15 +
+              lagfart +
+              pantbrev
+            ).toLocaleString()}(15%), ${(
+              kontantinsats30 +
+              lagfart +
+              pantbrev
+            ).toLocaleString()}(30%)`}
+            onChange={value => {}}
+          />
+        </div>
+      </form>
+      <h2>Månadskostnad</h2>
+      <form>
+        <div className="form-group">
+          <label>Ränta</label>
+          <input
+            type="number"
+            className="form-control"
+            value={state.interest}
+            onChange={e => {
+              dispatch(Actions.setInterest(parseFloat(e.target.value)));
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <label>Totalt 15% kontantinsats</label>
+          <input
+            type="text"
+            readOnly={true}
+            className="form-control"
+            value={`Ränta: ${interest15.toLocaleString()}, Amortering: ${intstallments15.toLocaleString()}, Totalt: ${(
+              interest15 + intstallments15
+            ).toLocaleString()}`}
+            onChange={value => {}}
+          />
+        </div>
+        <div className="form-group">
+          <label>Totalt 30% kontantinsats</label>
+          <input
+            type="text"
+            readOnly={true}
+            className="form-control"
+            value={`Ränta: ${interest30.toLocaleString()}, Amortering: ${installments30.toLocaleString()}, Totalt: ${(
+              interest30 + installments30
+            ).toLocaleString()}`}
+            onChange={value => {}}
+          />
+        </div>
       </form>
     </div>
   );
